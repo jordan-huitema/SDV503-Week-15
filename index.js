@@ -211,7 +211,7 @@ const c2 = increment()              // 9: declare c1 cont and set as increment f
 const c3 = increment()              // 10: declare c1 cont and set as increment func
 console.log('example increment', c3, c1, c2)    // 11: print string and result of c3,c1 and c2 funcs
 
-// Setting a var as a func allows JS to store the funcs variable states in the increment() var/func, this is called a closure.
+// Setting a var as a func allows JS to store the end state of a func and set it as the start state for when it is next run.
 // The next time we run increment() it will output the result but counter var in its local scope will be set as let counter = 1.
 // Next time counter var will be 2, then 3 and ect.
 // This is a simmilar concept to self edting code, the stored func increment() changes its set var values each time it is run.
