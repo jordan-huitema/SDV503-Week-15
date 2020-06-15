@@ -73,7 +73,7 @@ class HashTable {
     get(key) {
         let index = this._hash(key)
         let rtn;
-        if (this.keyMap[index]){
+        if (this.keyMap[index]) {
             this.keyMap[index].forEach((itm) => {
                 if (itm[0] === key) {
                     rtn = itm[1]
@@ -119,8 +119,98 @@ console.log(hashTable.keyMap)
 console.log(hashTable.get("Beans"))
 
 hashTable.set("Tomatos", 4)
-hashTable.set("Apples", 4)
+hashTable.set("Apples", 5)
 
 console.log(hashTable.keys())
 console.log(hashTable.values())
+
+/* Execution Context 
+Global code
+  The default enviroment where your code is executed for the first time
+  Code and variables can be accessed from anything downstream
+
+function code
+  whenever the flow of execution enters the scope of a function
+
+
+JS is a single threaded programing language, this means it runs programs line by line.
+Code the resides within a function in JS is not run or read until it is called, this means that when the program is run JS will skip read line 1-5 and then skip the func in line 6 and continue reading after the func ends only when the func is called will JS jump back to line 6 and run the containing func.
+
+When a function ends it is removed from the callstack and JS forgets the code, this means that using a funcion that repeatedly calling a function where the output dosnt change is not effecent, instead you should pass the return of that func to a variable and then use the var so JS dosnt have to re-run code.
+
+e.g
+func badFunc(){
+    let a = 'this ', b = 'is ', c = 'not ', d = 'efficent '
+    return a + b + c + d
+}
+console.log(badFunc())
+console.log(badFunc())
+console.log(badFunc())
+console.log(badFunc())
+console.log(badFunc())
+
+Each time this ^ is run JS has to go back and re-do the badFunc code 
+This is a better way of doing it
+
+let rememberResult = badFunc
+console.log(rememberResult)
+console.log(rememberResult)
+console.log(rememberResult)
+console.log(rememberResult)
+console.log(rememberResult)
+
+This was JS dosnt need to re-run the func each time because it can retreive the result from the variable
+*/
+
+let a = 3                   // 1: declare var a and set val as 2
+function addTwo(x){             // 3: declare func with input param of x
+    let ret = x + 2                 // 4: declare var ret, set val as x param + 2
+    return ret                      // 5: return val of ret var
+}
+let b = addTwo(a)           // 2: decalre var b and set as result of addTwo with input of var a
+console.log(b)              // 6: print val of var b to console
+
+// Function code/scope using Global code/scope
+let val1 = 2                // 1: decalare var val1 and set val as 2
+function multiplyThis(n) {      // 3: decalre func with input param of n
+    let ret = n * val1              // 4: decalre var ret and set val as var n times val1
+    return ret                      // 5: return val of ret var
+}
+                            // 2: decalre var multiplied and set val as result of multiplyThis fun with input of 6 
+let multiplied = multiplyThis(6)
+                            // 6: print string and val of multiplied var to console
+console.log('example of scope:', multiplied)
+
+
+let val = 7                     // 1: declare var val and set value as 7
+function creativeAdder(){           // 4: declare creativeAdder func
+    function addNumbers(a,b){           // 6: declare addNumbers func with params of a and b
+        let ret = a + b                     // 7: declare var ret and set val as result of var a + var b
+        return ret                          // 8: return val of ret var
+    }
+    return addNumbers               // 5: return result of addNumbers func with inherited inputs
+}
+let adder = creativeAdder()     // 2: declare var adder and set as creativeAdder func
+let sum = adder(val,8)          // 3: daclare var sum and set val as result of adder var's creativeAdder 
+                                //    func with input of val var value and 8
+console.log('example of function returning a function: ', sum)
+                                // 9: print string and val of sum var to console
+
+
+function creativeCounter(){         // 6: declare creativeCounter func
+    let counter = 0                     // 7: declare counter var and set val as 0
+    const myFunction = function() {     // 8: declare myFunction var and set as annon func
+        counter = counter + 1               // 10: itterate counter by 1
+        return counter                      // 11: return val of counter var
+    }
+    return myFunction                   // 9: return result of myFunction with inherited inputs
+}
+const increment = creativeCounter() // 1: declare increment cont and set as creativeCounter func
+const c1 = increment()              // 2: declare c1 cont and set as increment func
+const c2 = increment()              // 3: declare c1 cont and set as increment func
+const c3 = increment()              // 4: declare c1 cont and set as increment func
+console.log('example increment', c3, c1, c2)    // 5: print string and result of c3,c1 and c2 funcs
+
+// Setting a var as a func allows JS to store the funcs state/deffinition in the increment var. By creating another var and setting it as increment() we can store the result of increment() in the new var and the state of increment() after being run is stored in increment(). The next var we set as increment() will store the result of the stored increment().
+// This is a simmilar concept to self edting code, the func increment() changes itself each time it is run.
 
