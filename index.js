@@ -197,20 +197,22 @@ console.log('example of function returning a function: ', sum)
                                 // 9: print string and val of sum var to console
 
 
-function creativeCounter(){         // 6: declare creativeCounter func
-    let counter = 0                     // 7: declare counter var and set val as 0
-    const myFunction = function() {     // 8: declare myFunction var and set as annon func
-        counter = counter + 1               // 10: itterate counter by 1
-        return counter                      // 11: return val of counter var
+function creativeCounter(){         // 3: declare creativeCounter func
+    let counter = 0                     // 4: declare counter var and set val as 0
+    const myFunction = function() {     // 6: declare myFunction var and set as annon func
+        counter = counter + 1               // 7: itterate counter by 1
+        return counter                      // 8: return val of counter var
     }
-    return myFunction                   // 9: return result of myFunction with inherited inputs
+    return myFunction                   // 5: return result of myFunction with inherited inputs
 }
 const increment = creativeCounter() // 1: declare increment cont and set as creativeCounter func
 const c1 = increment()              // 2: declare c1 cont and set as increment func
-const c2 = increment()              // 3: declare c1 cont and set as increment func
-const c3 = increment()              // 4: declare c1 cont and set as increment func
-console.log('example increment', c3, c1, c2)    // 5: print string and result of c3,c1 and c2 funcs
+const c2 = increment()              // 9: declare c1 cont and set as increment func, repeats increment func
+const c3 = increment()              // 10: declare c1 cont and set as increment func
+console.log('example increment', c3, c1, c2)    // 11: print string and result of c3,c1 and c2 funcs
 
-// Setting a var as a func allows JS to store the funcs state/deffinition in the increment var. By creating another var and setting it as increment() we can store the result of increment() in the new var and the state of increment() after being run is stored in increment(). The next var we set as increment() will store the result of the stored increment().
+// Setting a var as a func allows JS to store the funcs variable states in the increment() var/func, this is called a closure.
+// The next time we run increment() it will output the result but counter var in its local scope will be set as let counter = 1.
+// Next time counter var will be 2, then 3 and ect.
 // This is a simmilar concept to self edting code, the func increment() changes itself each time it is run.
 
